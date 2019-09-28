@@ -1,10 +1,13 @@
-#include <map>
+#include <unordered_map>
 #include "Application.h"
 
-std::map<HWND, Application*> applications;
+std::unordered_map<HWND, Application*> applications;
 
 LRESULT CALLBACK GlobalWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
+    if (applications[hWnd] == nullptr)
+        return DefWindowProc(hWnd, iMessage, wParam, lParam);
+
     return applications[hWnd]->WndProc(iMessage, wParam, lParam);
 }
 
@@ -54,6 +57,8 @@ void Application::MakeWindow(const std::wstring& title, int width, int height)
         CW_USEDEFAULT, CW_USEDEFAULT,
         width, height, NULL, (HMENU)NULL, instance, NULL);
 
+    applications[hWnd] = this;
+
     ShowWindow(hWnd, SW_SHOWNORMAL);
 }
 
@@ -65,7 +70,6 @@ void Application::GameLoop()
 void Application::Init()
 {
     MakeWindow(L"test", 100, 100);
-    applications[hWnd] = this;
 }
 
 void Application::Run()

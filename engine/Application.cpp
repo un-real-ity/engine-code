@@ -1,5 +1,7 @@
 #include <unordered_map>
 #include "Application.h"
+#include "Renderer/Renderer.h";
+#include "Utils/Vector2.h";
 
 std::unordered_map<HWND, Application*> applications;
 
@@ -13,16 +15,13 @@ LRESULT CALLBACK GlobalWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM l
 
 LRESULT CALLBACK Application::WndProc(UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-    HDC hdc;
-    PAINTSTRUCT ps;
-
     switch (iMessage)
     {
     case WM_CREATE:
         return 0;
     case WM_PAINT:
-        hdc = BeginPaint(hWnd, &ps);
-        EndPaint(hWnd, &ps);
+		ValidateRect(hWnd, NULL);
+		renderer.Render(hWnd);
         return 0;
     case WM_DESTROY:
         PostQuitMessage(0);
@@ -51,14 +50,14 @@ void Application::MakeWindow(const std::wstring& title, int width, int height)
     WndClass.lpszMenuName = NULL;
     WndClass.style = CS_HREDRAW | CS_VREDRAW;
     RegisterClass(&WndClass);
-
     hWnd = CreateWindow(L"ENGINE", title.c_str(),
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT,
-        width, height, NULL, (HMENU)NULL, instance, NULL);
+		width, height,
+        NULL, (HMENU)NULL, instance, NULL);
 
     applications[hWnd] = this;
-
+	renderer.LoadResource(hWnd);
     ShowWindow(hWnd, SW_SHOWNORMAL);
 }
 
@@ -69,7 +68,11 @@ void Application::GameLoop()
 
 void Application::Init()
 {
-    MakeWindow(L"test", 100, 100);
+	renderer.Init();
+	Vector2 dpi = renderer.GetDPI();
+	UINT width = static_cast<UINT>(ceil(640.f * dpi.x / 96.f));
+	UINT height = static_cast<UINT>(ceil(480.f * dpi.y / 96.f));
+    MakeWindow(L"test", width, height);
 }
 
 void Application::Run()

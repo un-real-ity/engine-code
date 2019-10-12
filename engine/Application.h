@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <string>
+#include "Renderer/Renderer.h"
 
 class Application
 {
@@ -18,4 +19,5 @@ private:
     void MakeWindow(const std::wstring& title, int width, int height);
     void GameLoop();
     HWND hWnd;
+	Renderer renderer;
 };

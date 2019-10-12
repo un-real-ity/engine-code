@@ -65,23 +65,23 @@ void Application::MakeWindow(const std::wstring& title, int width, int height)
 
 void Application::GameLoop()
 {
-	auto now = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<float> delta = now - lastFrame;
+    auto now = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> delta = now - lastFrame;
 
-	nowScene->Update(delta.count());
+    nowScene->Update(delta.count());
 
-	lastFrame = now;
+    lastFrame = now;
 }
 
 void Application::Init(Scene* startScene)
 {
     MakeWindow(L"test", 100, 100);
-	nowScene = startScene;
+    nowScene = startScene;
 }
 
 void Application::Run()
 {
-	lastFrame = std::chrono::high_resolution_clock::now();
+    lastFrame = std::chrono::high_resolution_clock::now();
     while (true)
     {
         MSG message;

@@ -5,8 +5,8 @@
 class Scene : public Object
 {
 public:
-	virtual void OnCreate();
-	virtual void Update(float deltaTime);
-	virtual void OnDestroy();
+    virtual void OnCreate();
+    virtual void Update(float deltaTime);
+    virtual void OnDestroy();
 private:
 };

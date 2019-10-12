@@ -5,17 +5,17 @@
 class Object
 {
 public:
-	Object();
-	virtual ~Object();
+    Object();
+    virtual ~Object();
 
-	virtual void OnCreate() = 0;
-	virtual void Update(float deltaTime) = 0;
-	virtual void OnDestroy() = 0;
+    virtual void OnCreate() = 0;
+    virtual void Update(float deltaTime) = 0;
+    virtual void OnDestroy() = 0;
 
-	void AddChild(Object* obj);
-	void RemoveChild(Object* obj);
+    void AddChild(Object* obj);
+    void RemoveChild(Object* obj);
 
 private:
-	Object* parent;
-	std::vector<Object*> children;
+    Object* parent;
+    std::vector<Object*> children;
 };

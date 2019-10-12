@@ -21,6 +21,6 @@ private:
     void MakeWindow(const std::wstring& title, int width, int height);
     void GameLoop();
     HWND hWnd;
-	Scene* nowScene;
-	std::chrono::high_resolution_clock::time_point lastFrame;
+    Scene* nowScene;
+    std::chrono::high_resolution_clock::time_point lastFrame;
 };

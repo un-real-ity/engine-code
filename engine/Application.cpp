@@ -1,5 +1,6 @@
 #include <unordered_map>
 #include "Application.h"
+#include "Object/Scene.h"
 
 std::unordered_map<HWND, Application*> applications;
 
@@ -64,18 +65,23 @@ void Application::MakeWindow(const std::wstring& title, int width, int height)
 
 void Application::GameLoop()
 {
+	auto now = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<float> delta = now - lastFrame;
 
+	nowScene->Update(delta.count());
+
+	lastFrame = now;
 }
 
-void Application::Init()
+void Application::Init(Scene* startScene)
 {
     MakeWindow(L"test", 100, 100);
+	nowScene = startScene;
 }
 
 void Application::Run()
 {
-    Init();
-
+	lastFrame = std::chrono::high_resolution_clock::now();
     while (true)
     {
         MSG message;

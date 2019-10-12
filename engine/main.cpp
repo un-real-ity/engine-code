@@ -6,8 +6,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
     , LPSTR lpszCmdParam, int nCmdShow)
 {
     Application app;
-	Scene* start = new Scene();
-	app.Init(start);
+    Scene* start = new Scene();
+    app.Init(start);
     app.Run();
 
     return 0;
